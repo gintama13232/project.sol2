@@ -1,0 +1,33 @@
+name: GitHub Pages Deployment
+
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Set to your required Node.js version
+
+    - name: Install dependencies
+      run: |
+        yarn install  # Or use npm install if you use npm
+
+    - name: Build project
+      run: |
+        yarn build  # Or the build command specific to your project
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.0.0
+      with:
+        branch: gh-pages  # The branch you want to deploy to
+        folder: out  # The folder where your build output is generated (e.g., Next.js generates this folder by default)
+        token: ${{ secrets.GITHUB_TOKEN }}
